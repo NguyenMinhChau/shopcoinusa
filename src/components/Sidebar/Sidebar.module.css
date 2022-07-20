@@ -1,0 +1,22 @@
+.wrapper {
+    width: 280px;
+    min-height: 531px;
+    background-color: var(--color-white);
+    box-shadow: 3px 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.menu-list a {
+    display: flex;
+    align-items: center;
+    padding: 15px 16px;
+    font-size: 18px;
+    transition: all 0.3s;
+}
+
+.menu-list a:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+.menu-item-text {
+    margin-left: 8px;
+}

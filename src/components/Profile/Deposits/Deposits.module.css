@@ -1,0 +1,88 @@
+.title {
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+.withdrawal-button {
+    background-color: var(--color-primary);
+    margin-bottom: 16px;
+    padding: 12px;
+    display: inline-block;
+}
+
+.your-withdrawal-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid var(--color-black);
+}
+
+.deposits-item {
+    width: 700px;
+    margin-bottom: 12px;
+}
+
+.deposits-item-label {
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: var(--color-text);
+}
+
+.deposits-item-select-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px 8px;
+    font-size: 14px;
+}
+
+.select-list {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    right: 0;
+    height: 200px;
+    background-color: var(--color-white);
+    box-shadow: 8px 10px 10px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    overflow-y: auto;
+    z-index: 999;
+}
+
+.select-item {
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.select-item:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.input-custom {
+    font-size: 14px !important;
+    padding: 10px 8px !important;
+}
+
+.deposits-item-button {
+    font-weight: bold;
+    margin-top: 24px;
+    transition: all .3s;
+}
+
+.deposits-item-button:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.deposits-error {
+    color: var(--color-error);
+    font-size: 12px;
+    margin-top: 8px;
+}

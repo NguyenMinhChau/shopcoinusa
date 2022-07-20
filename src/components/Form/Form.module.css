@@ -1,0 +1,70 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.content-container {
+    margin: 40px auto;
+    width: 27%;
+}
+
+.content {
+    min-height: 200px;
+    background-color: var(--color-white);
+    box-shadow: 6px 6px 40px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 40px;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.label {
+    font-size: 12px;
+    color: var(--color-text);
+    margin-bottom: 8px;
+}
+
+.input-item {
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.link {
+    margin-top: 24px;
+    text-align: center;
+    display: block;
+    text-decoration: underline;
+    color: #3b82f6;
+    letter-spacing: 0.5px;
+}
+
+.register-account {
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+.d-inline {
+    display: inline-block;
+}
+
+.list-guides {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 24px;
+}
+
+.item-guide {
+    color: var(--color-text);
+}
+
+
+.desc-register {
+    font-size: 14px;
+    text-align: justify;
+    margin-top: 24px;
+}

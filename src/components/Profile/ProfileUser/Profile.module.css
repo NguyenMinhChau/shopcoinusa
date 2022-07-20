@@ -1,0 +1,42 @@
+.title {
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+.info-list {
+    width: 700px;
+    margin-bottom: 40px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 4px;
+    border-bottom: 1px solid lightgrey;
+}
+
+.item-desc {
+    font-weight: bold;
+}
+
+.desc-payment {
+    font-size: 18px;
+    color: var(--color-text);
+    margin-bottom: 20px;
+}
+
+.item-modal-text {
+    cursor: pointer;
+    color: #3b84f6;
+}
+
+.your-payment-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 700px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid var(--color-black);
+}

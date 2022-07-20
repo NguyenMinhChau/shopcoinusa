@@ -1,0 +1,78 @@
+.title {
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+.desc-payment {
+    font-size: 18px;
+    color: var(--color-text);
+    margin-bottom: 20px;
+}
+
+.gateway-item {
+    width: 425px;
+    margin-bottom: 12px;
+}
+
+.gateway-item-label {
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: var(--color-text);
+}
+
+.gateway-item-select-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 10px 8px;
+    font-size: 14px;
+}
+
+.select-list {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    right: 0;
+    height: 200px;
+    background-color: var(--color-white);
+    box-shadow: 8px 10px 10px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    overflow-y: auto;
+    z-index: 999;
+}
+
+.select-item {
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.select-item:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.input-custom {
+    font-size: 14px !important;
+    padding: 10px 8px !important;
+}
+
+.gateway-item-button {
+    font-weight: bold;
+    margin-top: 24px;
+    transition: all .3s;
+}
+
+.gateway-item-button:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.gateway-error {
+    color: var(--color-error);
+    font-size: 12px;
+    margin-top: 8px;
+}

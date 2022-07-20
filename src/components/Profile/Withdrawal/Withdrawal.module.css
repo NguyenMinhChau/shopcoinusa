@@ -1,0 +1,20 @@
+.title {
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+.withdrawal-button {
+    background-color: var(--color-primary);
+    margin-bottom: 16px;
+    padding: 12px;
+    display: inline-block;
+}
+
+.your-withdrawal-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid var(--color-black);
+}

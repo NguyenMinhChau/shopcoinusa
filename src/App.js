@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React, { Fragment } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { DefaultLayout, Image } from './components';
+import { publicRouter } from './RoutesRender';
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <>
+            <div className='app'>
+                <Routes>
+                    {publicRouter.map((route, index) => {
+                        const Layout = route.layout
+                            ? route.layout
+                            : route.layout === null
+                            ? Fragment
+                            : DefaultLayout;
+                        const Page = route.component;
+                        return (
+                            <Route
+                                key={index}
+                                path={route.path}
+                                element={
+                                    <Layout>
+                                        <Page />
+                                    </Layout>
+                                }
+                            />
+                        );
+                    })}
+                </Routes>
+            </div>
+            <div className='no-support'>
+                <Image src='' alt='' className='logo-no-support' />
+                <p className='desc'>Notice: Unsupported device 😥</p>
+            </div>
+        </>
+    );
 }
 
 export default App;

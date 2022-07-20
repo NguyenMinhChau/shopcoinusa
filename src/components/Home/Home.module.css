@@ -1,0 +1,111 @@
+.wrapper {
+    padding: 40px 20px;
+    min-height: 100vh;
+}
+
+.title {
+    text-transform: uppercase;
+    margin-bottom: 40px;
+}
+
+.table-coin {
+    width: 100%;
+    margin: 16px 0;
+    border-collapse: collapse;
+}
+
+.table-coin .thead {
+    background-color: var(--footer-bgc);
+    text-align: left;
+    height: 38px;
+}
+
+.table-coin .tbody {
+    width: 100%;
+}
+
+.table-coin .thead th {
+    font-weight: 400;
+    padding-left: 12px;
+}
+
+.table-coin .tbody td {
+    padding: 16px 12px;
+}
+
+.table-coin .tbody td a,
+.table-coin .thead th:not(:nth-child(3)):hover {
+    color: var(--color-primary);
+}
+
+.table-coin .tbody td:first-child {
+    display: flex;
+    align-items: center;
+    width: 120px;
+}
+
+.table-coin .tbody td:first-child .name {
+    display: flex;
+    align-items: center;
+}
+
+.table-coin .tbody,
+.table-coin .thead th {
+    transition: all 0.3s;
+}
+
+.table-coin .tbody:hover {
+    background-color: var(--footer-bgc);
+}
+
+
+.logo_company {
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
+.fullname-coin {
+    color: #ccc;
+    min-width: 170px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+}
+
+.icon-sort {
+    font-size: 14px;
+}
+
+.text-red {
+    color: red;
+}
+
+.text-green {
+    color: green;
+}
+
+.button-scroll-top {
+    position: fixed;
+    bottom: 15px;
+    right: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    transition: all 0.3s;
+}
+
+.button-scroll-top:hover {
+    background-color: rgb(255, 196, 172);
+    cursor: pointer;
+}
