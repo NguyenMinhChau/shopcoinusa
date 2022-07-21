@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import className from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { DataGrid } from '@mui/x-data-grid/DataGrid/DataGrid';
+import { DataGrid } from '@mui/x-data-grid';
 import { routes } from '../../Routes';
 import { useShopcoinContext } from '../../hooks';
 import { actions } from '../../app/';
