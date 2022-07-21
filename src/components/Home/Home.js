@@ -3,9 +3,9 @@ import className from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid/DataGrid';
+import { routes } from '../../Routes';
 import { useShopcoinContext } from '../../hooks';
 import { actions } from '../../app/';
-import { routes } from '../../Routes';
 import { Image } from '../';
 import styles from './Home.module.css';
 
@@ -13,7 +13,7 @@ const cx = className.bind(styles);
 
 function Home() {
     const { state, dispatch } = useShopcoinContext();
-    const { scrollTop } = state.toogle;
+    const { scrollTop, sortZA, sort90 } = state.toogle;
     const { dataCoins } = state.set;
     const getTokenAndData = async () => {
         const response = await axios.post(process.env.REACT_APP_AUTH_LOGIN, {
@@ -32,66 +32,62 @@ function Home() {
             })
         );
     };
-    // const handleSortAZ = () => {
-    //     dispatch(
-    //         actions.setDataCoins(
-    //             state.dataCoins.sort((a, b) =>
-    //                 a.symbol.slice(0, 3).localeCompare(b.symbol.slice(0, 3))
-    //             )
-    //         )
-    //     );
-    //     dispatch(
-    //         actions.toogle({
-    //             ...state.toogle,
-    //             sortZA: true,
-    //         })
-    //     );
-    // };
-    // const handleSortZA = () => {
-    //     dispatch(
-    //         actions.setDataCoins(
-    //             state.dataCoins.sort((a, b) =>
-    //                 b.symbol.slice(0, 3).localeCompare(a.symbol.slice(0, 3))
-    //             )
-    //         )
-    //     );
-    //     dispatch(
-    //         actions.toogle({
-    //             ...state.toogle,
-    //             sortZA: false,
-    //         })
-    //     );
-    // };
-    // const handleSort09 = () => {
-    //     dispatch(
-    //         actions.setDataCoins(
-    //             state.dataCoins.sort((a, b) =>
-    //                 a.lastPrice.localeCompare(b.lastPrice)
-    //             )
-    //         )
-    //     );
-    //     dispatch(
-    //         actions.toogle({
-    //             ...state.toogle,
-    //             sort90: true,
-    //         })
-    //     );
-    // };
-    // const handleSort90 = () => {
-    //     dispatch(
-    //         actions.setDataCoins(
-    //             state.dataCoins.sort((a, b) =>
-    //                 b.lastPrice.localeCompare(a.lastPrice)
-    //             )
-    //         )
-    //     );
-    //     dispatch(
-    //         actions.toogle({
-    //             ...state.toogle,
-    //             sort90: false,
-    //         })
-    //     );
-    // };
+    const handleSortAZ = () => {
+        dispatch(
+            actions.setData(
+                dataCoins.sort((a, b) =>
+                    a.symbol.slice(0, 3).localeCompare(b.symbol.slice(0, 3))
+                )
+            )
+        );
+        dispatch(
+            actions.toogle({
+                ...state.toogle,
+                sortZA: true,
+            })
+        );
+    };
+    const handleSortZA = () => {
+        dispatch(
+            actions.setData(
+                dataCoins.sort((a, b) =>
+                    b.symbol.slice(0, 3).localeCompare(a.symbol.slice(0, 3))
+                )
+            )
+        );
+        dispatch(
+            actions.toogle({
+                ...state.toogle,
+                sortZA: false,
+            })
+        );
+    };
+    const handleSort09 = () => {
+        dispatch(
+            actions.setData(
+                dataCoins.sort((a, b) => a.lastPrice.localeCompare(b.lastPrice))
+            )
+        );
+        dispatch(
+            actions.toogle({
+                ...state.toogle,
+                sort90: true,
+            })
+        );
+    };
+    const handleSort90 = () => {
+        dispatch(
+            actions.setData(
+                dataCoins.sort((a, b) => b.lastPrice.localeCompare(a.lastPrice))
+            )
+        );
+        dispatch(
+            actions.toogle({
+                ...state.toogle,
+                sort90: false,
+            })
+        );
+    };
     useEffect(() => {
         getTokenAndData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -218,9 +214,10 @@ function Home() {
                 columns={columns}
                 pageSize={10}
                 rowsPerPageOptions={[10]}
-                style={{ height: '628px' }}
+                style={{ height: '635px' }}
             />
-            {/* <table className={cx('table-coin')}>
+
+            <table className={cx('table-coin')}>
                 <tbody>
                     <tr className={cx('thead')}>
                         {!sortZA ? (
@@ -304,7 +301,7 @@ function Home() {
                         </tr>
                     )}
                 </tbody>
-            </table> */}
+            </table>
             {scrollTop && (
                 <div
                     className={cx('button-scroll-top')}

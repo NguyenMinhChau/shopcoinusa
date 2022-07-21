@@ -8,7 +8,7 @@
     margin-bottom: 40px;
 }
 
-/* .table-coin {
+.table-coin {
     width: 100%;
     margin: 16px 0;
     border-collapse: collapse;
@@ -56,7 +56,7 @@
 
 .table-coin .tbody:hover {
     background-color: var(--footer-bgc);
-} */
+}
 
 .text-primary {
     color: var(--color-primary);
