@@ -21,7 +21,6 @@ function CreateDeposits() {
     const { amount, deposits, bankName } = state.dataForm;
     const { bankListDeposits } = state.toogle;
     const [errorAmount, setErrorAmount] = useState('');
-    const [errorBank, setErrorBank] = useState('');
     const [errorDeposits, setErrorDeposits] = useState('');
     const amoutUSDTRef = useRef();
     const depositsVNDTRef = useRef();
@@ -93,7 +92,6 @@ function CreateDeposits() {
                         </div>
                     )}
                 </div>
-                <p className={cx('deposits-error')}>{errorBank}</p>
             </div>
             <div className={cx('deposits-item')}>
                 <p className={cx('deposits-item-label')}>Deposits (VND)</p>
