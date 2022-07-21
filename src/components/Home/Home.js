@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import className from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { DataGrid } from '@mui/x-data-grid';
+// import { DataGrid } from '@mui/x-data-grid';
 import { routes } from '../../Routes';
 import { useShopcoinContext } from '../../hooks';
 import { actions } from '../../app/';
@@ -209,13 +209,13 @@ function Home() {
     return (
         <div className={cx('wrapper')}>
             <h3 className={cx('title')}>Market Trend</h3>
-            <DataGrid
+            {/* <DataGrid
                 rows={rows}
                 columns={columns}
                 pageSize={10}
                 rowsPerPageOptions={[10]}
                 style={{ height: '635px' }}
-            />
+            /> */}
             <table className={cx('table-coin')}>
                 <tbody>
                     <tr className={cx('thead')}>
