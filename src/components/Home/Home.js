@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import className from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { DataGrid } from '@mui/x-data-grid/DataGrid';
+// import { DataGrid } from '@mui/x-data-grid/DataGrid';
 import { routes } from '../../Routes';
 import { useShopcoinContext } from '../../hooks';
 import { actions } from '../../app/';
@@ -114,108 +114,108 @@ function Home() {
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    const columns = [
-        { field: 'id', headerName: 'ID' },
-        {
-            field: 'logo',
-            headerName: 'Logo',
-            sortable: false,
-            renderCell: (params) => {
-                return (
-                    <Image
-                        src={params.value.url}
-                        alt={params.value.name}
-                        title={params.value.name}
-                        className={cx('logo_company')}
-                    />
-                );
-            },
-        },
-        {
-            field: 'name',
-            headerName: 'Name',
-            valueGetter: (paramsGetValue) => {
-                return `${paramsGetValue.value || ''}`;
-            },
-        },
-        {
-            field: 'price',
-            headerName: 'Price',
-            sortable: false,
-            renderCell: (params) => {
-                return (
-                    <span
-                        className={cx(
-                            `${
-                                params.value.priceChangePercent < 0
-                                    ? 'text-red'
-                                    : 'text-green'
-                            }`
-                        )}
-                    >
-                        {params.value.lastPrice}
-                    </span>
-                );
-            },
-        },
-        {
-            field: 'hightlow',
-            headerName: '24h Hight/ Low',
-            sortable: false,
-            renderCell: (params) => {
-                return (
-                    <span
-                        title={`${params.value.highPrice}/${params.value.lowPrice}`}
-                    >
-                        {params.value.highPrice}/{params.value.lowPrice}
-                    </span>
-                );
-            },
-        },
-        {
-            field: 'buy',
-            headerName: '',
-            sortable: false,
-            renderCell: (params) => {
-                return (
-                    <Link className={cx('text-primary')} to={`${params.value}`}>
-                        Buy
-                    </Link>
-                );
-            },
-        },
-    ];
-    const rows =
-        dataCoins.length > 0 &&
-        dataCoins.map((coin) => {
-            return {
-                id: coin.index,
-                logo: {
-                    name: coin.fullName,
-                    url: `https://cdn.shopcoinusa.com/${coin.logo}`,
-                },
-                name: `${coin.symbol.slice(0, 3)}/${coin.fullName}`,
-                price: {
-                    lastPrice: coin.lastPrice,
-                    priceChangePercent: coin.priceChangePercent,
-                },
-                hightlow: {
-                    highPrice: coin.highPrice,
-                    lowPrice: coin.lowPrice,
-                },
-                buy: `${routes.coin}/${coin.symbol}`,
-            };
-        });
+    // const columns = [
+    //     { field: 'id', headerName: 'ID' },
+    //     {
+    //         field: 'logo',
+    //         headerName: 'Logo',
+    //         sortable: false,
+    //         renderCell: (params) => {
+    //             return (
+    //                 <Image
+    //                     src={params.value.url}
+    //                     alt={params.value.name}
+    //                     title={params.value.name}
+    //                     className={cx('logo_company')}
+    //                 />
+    //             );
+    //         },
+    //     },
+    //     {
+    //         field: 'name',
+    //         headerName: 'Name',
+    //         valueGetter: (paramsGetValue) => {
+    //             return `${paramsGetValue.value || ''}`;
+    //         },
+    //     },
+    //     {
+    //         field: 'price',
+    //         headerName: 'Price',
+    //         sortable: false,
+    //         renderCell: (params) => {
+    //             return (
+    //                 <span
+    //                     className={cx(
+    //                         `${
+    //                             params.value.priceChangePercent < 0
+    //                                 ? 'text-red'
+    //                                 : 'text-green'
+    //                         }`
+    //                     )}
+    //                 >
+    //                     {params.value.lastPrice}
+    //                 </span>
+    //             );
+    //         },
+    //     },
+    //     {
+    //         field: 'hightlow',
+    //         headerName: '24h Hight/ Low',
+    //         sortable: false,
+    //         renderCell: (params) => {
+    //             return (
+    //                 <span
+    //                     title={`${params.value.highPrice}/${params.value.lowPrice}`}
+    //                 >
+    //                     {params.value.highPrice}/{params.value.lowPrice}
+    //                 </span>
+    //             );
+    //         },
+    //     },
+    //     {
+    //         field: 'buy',
+    //         headerName: '',
+    //         sortable: false,
+    //         renderCell: (params) => {
+    //             return (
+    //                 <Link className={cx('text-primary')} to={`${params.value}`}>
+    //                     Buy
+    //                 </Link>
+    //             );
+    //         },
+    //     },
+    // ];
+    // const rows =
+    //     dataCoins.length > 0 &&
+    //     dataCoins.map((coin) => {
+    //         return {
+    //             id: coin.index,
+    //             logo: {
+    //                 name: coin.fullName,
+    //                 url: `https://cdn.shopcoinusa.com/${coin.logo}`,
+    //             },
+    //             name: `${coin.symbol.slice(0, 3)}/${coin.fullName}`,
+    //             price: {
+    //                 lastPrice: coin.lastPrice,
+    //                 priceChangePercent: coin.priceChangePercent,
+    //             },
+    //             hightlow: {
+    //                 highPrice: coin.highPrice,
+    //                 lowPrice: coin.lowPrice,
+    //             },
+    //             buy: `${routes.coin}/${coin.symbol}`,
+    //         };
+    //     });
     return (
         <div className={cx('wrapper')}>
             <h3 className={cx('title')}>Market Trend</h3>
-            <DataGrid
+            {/* <DataGrid
                 rows={rows}
                 columns={columns}
                 pageSize={10}
                 rowsPerPageOptions={[10]}
                 style={{ height: '635px' }}
-            />
+            /> */}
 
             <table className={cx('table-coin')}>
                 <tbody>
