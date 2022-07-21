@@ -80,6 +80,7 @@ function Header() {
                     </ul>
                     <ul className={`${cx('nav-user')}`}>
                         <Button
+                            fontWeightNormal
                             className={`${cx(
                                 'nav-user-item',
                                 'nav-user-item-btn'

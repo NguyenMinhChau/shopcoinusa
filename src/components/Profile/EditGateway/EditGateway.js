@@ -4,84 +4,43 @@ import { useShopcoinContext } from '../../../hooks';
 import { Input } from '../../../components';
 import { actions } from '../../../app/';
 import { Button } from '../../';
+import {
+    handleChangeInput,
+    resetForm,
+    checkAccNameInput,
+    checkAccNumberInput,
+    handleSetBankName,
+} from '../../handleForm';
+import BANK_LIST from '../../bankList';
 import WrapperProfile from '../WrapperProfile';
 import styles from './EditGateway.module.css';
 
 const cx = className.bind(styles);
 
-const BANK_LIST = [
-    { id: 1, name: 'Vietcombank' },
-    { id: 2, name: 'Sacombank' },
-    { id: 3, name: 'ACB' },
-    { id: 4, name: 'Techcombank' },
-    { id: 5, name: 'Vietinbank' },
-    { id: 6, name: 'VPBank' },
-    { id: 7, name: 'Agribank' },
-    { id: 8, name: 'BIDV' },
-    { id: 9, name: 'Eximbank' },
-    { id: 10, name: 'SCB' },
-    { id: 11, name: 'SHB' },
-    { id: 12, name: 'Ngân hàng liên việt Sơn Tây' },
-];
-
 function EditGateway() {
     const { state, dispatch } = useShopcoinContext();
-    const { accountName, accountNumber } = state.dataEditGateway;
+    const { accountName, accountNumber, bankName } = state.dataForm;
+    const { bankList } = state.toogle;
     const [errorAccName, setErrorAccName] = useState('');
     const [errorAccNumber, setErrorAccNumber] = useState('');
     const accNameRef = useRef();
     const accNumberRef = useRef();
     const handleToogleBankList = (e) => {
-        dispatch(actions.toogleBankList(!state.toogleBankList));
-    };
-    const handleSetBankName = (id) => {
-        BANK_LIST.forEach((item) => {
-            if (item.id === id) {
-                dispatch(actions.setBankName(item.name));
-                dispatch(
-                    actions.dataEditGateway({
-                        ...state.dataEditGateway,
-                        bankName: item.name,
-                    })
-                );
-            }
-        });
-    };
-    const handleChangeInput = (e) => {
-        const { name, value } = e.target;
         dispatch(
-            actions.dataEditGateway({ ...state.dataEditGateway, [name]: value })
-        );
-    };
-    useEffect(() => {
-        accNameRef.current.addEventListener('blur', () => {
-            if (accNameRef.current.value === '') {
-                setErrorAccName('This field is required');
-            } else {
-                setErrorAccName('');
-            }
-        });
-        accNumberRef.current.addEventListener('blur', () => {
-            if (accNumberRef.current.value === '') {
-                setErrorAccNumber('This field is required');
-            } else if (isNaN(accNumberRef.current.value)) {
-                setErrorAccNumber('This field must be a number');
-            } else {
-                setErrorAccNumber('');
-            }
-        });
-    });
-    const onSubmit = (e) => {
-        e.preventDefault();
-        console.log('Data value: ', state.dataEditGateway);
-        dispatch(
-            actions.dataEditGateway({
-                bankName: 'Vietcombank',
-                accountName: '',
-                accountNumber: '',
+            actions.toogle({
+                ...state.toogle,
+                bankList: !bankList,
             })
         );
-        dispatch(actions.setBankName('Vietcombank'));
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {
+        checkAccNameInput(accNameRef, setErrorAccName);
+        checkAccNumberInput(accNumberRef, setErrorAccNumber);
+    });
+    const onSubmit = (e) => {
+        console.log('Data value: ', state.dataForm);
+        resetForm(e, dispatch, actions, false);
     };
     return (
         <WrapperProfile>
@@ -95,19 +54,24 @@ function EditGateway() {
                     className={cx('gateway-item-select-container')}
                     onClick={handleToogleBankList}
                 >
-                    <p className={cx('gateway-item-select-text')}>
-                        {state.bankName}
-                    </p>
+                    <p className={cx('gateway-item-select-text')}>{bankName}</p>
                     <span className={cx('gateway-item-icon')}>
                         <i className='fa-solid fa-sort-down'></i>
                     </span>
-                    {state.toogleBankList && (
+                    {bankList && (
                         <div className={cx('select-list')}>
                             {BANK_LIST.map((item, index) => (
                                 <div
                                     key={index}
                                     className={cx('select-item')}
-                                    onClick={() => handleSetBankName(item.id)}
+                                    onClick={() =>
+                                        handleSetBankName(
+                                            item.id,
+                                            state,
+                                            dispatch,
+                                            actions
+                                        )
+                                    }
                                 >
                                     {item.name}
                                 </div>
@@ -124,7 +88,9 @@ function EditGateway() {
                     ref={accNameRef}
                     placeholder='Enter your account name'
                     className={cx('input-custom')}
-                    onChange={handleChangeInput}
+                    onChange={(e) =>
+                        handleChangeInput(e, state, dispatch, actions)
+                    }
                     value={accountName}
                 />
                 <p className={cx('gateway-error')}>{errorAccName}</p>
@@ -138,7 +104,9 @@ function EditGateway() {
                     ref={accNumberRef}
                     placeholder='Enter your account number'
                     className={cx('input-custom')}
-                    onChange={handleChangeInput}
+                    onChange={(e) =>
+                        handleChangeInput(e, state, dispatch, actions)
+                    }
                 />
                 <p className={cx('gateway-error')}>{errorAccNumber}</p>
             </div>
@@ -152,7 +120,8 @@ function EditGateway() {
                         errorAccName ||
                         errorAccNumber ||
                         !accountName ||
-                        !accountNumber
+                        !accountNumber ||
+                        !bankName
                     }
                 >
                     Submit

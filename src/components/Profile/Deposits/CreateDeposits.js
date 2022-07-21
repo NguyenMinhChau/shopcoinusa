@@ -1,88 +1,46 @@
 import { useRef, useState, useEffect } from 'react';
 import className from 'classnames/bind';
 import WrapperProfile from '../WrapperProfile';
-import { Button } from '../../';
 import { useShopcoinContext } from '../../../hooks';
 import { actions } from '../../../app/';
 import { Input } from '../../../components';
+import {
+    handleChangeInput,
+    resetForm,
+    checkAmountUSDTInput,
+    checkDepositVNDInput,
+    handleSetBankName,
+} from '../../handleForm';
+import BANK_LIST from '../../bankList';
+import { Button } from '../../';
 import styles from './Deposits.module.css';
 
 const cx = className.bind(styles);
-const BANK_LIST = [
-    { id: 1, name: 'Vietcombank' },
-    { id: 2, name: 'Sacombank' },
-    { id: 3, name: 'ACB' },
-    { id: 4, name: 'Techcombank' },
-    { id: 5, name: 'Vietinbank' },
-    { id: 6, name: 'VPBank' },
-    { id: 7, name: 'Agribank' },
-    { id: 8, name: 'BIDV' },
-    { id: 9, name: 'Eximbank' },
-    { id: 10, name: 'SCB' },
-    { id: 11, name: 'SHB' },
-    { id: 12, name: 'Ngân hàng liên việt Sơn Tây' },
-];
 function CreateDeposits() {
     const { state, dispatch } = useShopcoinContext();
-    const { amount, deposits, bankName } = state.dataDeposits;
+    const { amount, deposits, bankName } = state.dataForm;
+    const { bankListDeposits } = state.toogle;
     const [errorAmount, setErrorAmount] = useState('');
     const [errorBank, setErrorBank] = useState('');
     const [errorDeposits, setErrorDeposits] = useState('');
     const amoutUSDTRef = useRef();
     const depositsVNDTRef = useRef();
     const handleToogleBankListDeposits = () => {
-        dispatch(actions.toogleBankListDeposits(!state.toogleBankListDeposits));
-    };
-    const handleSetBankName = (id) => {
-        BANK_LIST.forEach((item) => {
-            if (item.id === id) {
-                dispatch(actions.setBankNameDeposits(item.name));
-                dispatch(
-                    actions.dataDeposits({
-                        ...state.dataDeposits,
-                        bankName: item.name,
-                    })
-                );
-            }
-        });
-    };
-    const handleChangeInput = (e) => {
-        const { name, value } = e.target;
         dispatch(
-            actions.dataDeposits({ ...state.dataDeposits, [name]: value })
-        );
-    };
-    useEffect(() => {
-        amoutUSDTRef.current.addEventListener('blur', () => {
-            if (amoutUSDTRef.current.value === '') {
-                setErrorAmount('This field is required');
-            } else if (isNaN(amoutUSDTRef.current.value)) {
-                setErrorAmount('This field must be a number');
-            } else {
-                setErrorAmount('');
-            }
-        });
-        depositsVNDTRef.current.addEventListener('blur', () => {
-            if (depositsVNDTRef.current.value === '') {
-                setErrorDeposits('This field is required');
-            } else if (isNaN(depositsVNDTRef.current.value)) {
-                setErrorDeposits('This field must be a number');
-            } else {
-                setErrorDeposits('');
-            }
-        });
-    });
-    const onSubmit = (e) => {
-        e.preventDefault();
-        console.log('Data value: ', state.dataDeposits);
-        dispatch(
-            actions.dataDeposits({
-                amount: '',
-                deposits: '',
-                bankName: '',
+            actions.toogle({
+                ...state.toogle,
+                bankListDeposits: !bankListDeposits,
             })
         );
-        dispatch(actions.setBankNameDeposits(''));
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {
+        checkAmountUSDTInput(amoutUSDTRef, setErrorAmount);
+        checkDepositVNDInput(depositsVNDTRef, setErrorDeposits);
+    });
+    const onSubmit = (e) => {
+        console.log('Data value: ', state.dataForm);
+        resetForm(e, dispatch, actions, false);
     };
     return (
         <WrapperProfile>
@@ -94,7 +52,9 @@ function CreateDeposits() {
                     className={cx('input-custom')}
                     name='amount'
                     value={amount}
-                    onChange={handleChangeInput}
+                    onChange={(e) =>
+                        handleChangeInput(e, state, dispatch, actions)
+                    }
                     ref={amoutUSDTRef}
                     placeholder='Enter amount USDT'
                 />
@@ -107,18 +67,25 @@ function CreateDeposits() {
                     onClick={handleToogleBankListDeposits}
                 >
                     <p className={cx('deposits-item-select-text')}>
-                        {state.bankNameDeposits}
+                        {bankName}
                     </p>
                     <span className={cx('deposits-item-icon')}>
                         <i className='fa-solid fa-sort-down'></i>
                     </span>
-                    {state.toogleBankListDeposits && (
+                    {bankListDeposits && (
                         <div className={cx('select-list')}>
                             {BANK_LIST.map((item, index) => (
                                 <div
                                     key={index}
                                     className={cx('select-item')}
-                                    onClick={() => handleSetBankName(item.id)}
+                                    onClick={() =>
+                                        handleSetBankName(
+                                            item.id,
+                                            state,
+                                            dispatch,
+                                            actions
+                                        )
+                                    }
                                 >
                                     {item.name}
                                 </div>
@@ -135,7 +102,9 @@ function CreateDeposits() {
                     className={cx('input-custom')}
                     name='deposits'
                     value={deposits}
-                    onChange={handleChangeInput}
+                    onChange={(e) =>
+                        handleChangeInput(e, state, dispatch, actions)
+                    }
                     ref={depositsVNDTRef}
                     placeholder='Enter deposits VND'
                 />

@@ -11,6 +11,7 @@ function Withdrawal() {
         <WrapperProfile>
             <h3 className={cx('title')}>WITHDRAW FUNDS</h3>
             <Button
+                fontWeightNormal
                 to={routes.profilewithdrawcreate}
                 primary
                 className={cx('withdrawal-button')}

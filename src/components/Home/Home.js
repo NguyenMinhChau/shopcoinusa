@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import className from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { DataGrid } from '@mui/x-data-grid/DataGrid';
 import { useShopcoinContext } from '../../hooks';
 import { actions } from '../../app/';
 import { routes } from '../../Routes';
@@ -12,6 +13,8 @@ const cx = className.bind(styles);
 
 function Home() {
     const { state, dispatch } = useShopcoinContext();
+    const { scrollTop } = state.toogle;
+    const { dataCoins } = state.set;
     const getTokenAndData = async () => {
         const response = await axios.post(process.env.REACT_APP_AUTH_LOGIN, {
             email: process.env.REACT_APP_EMAIL,
@@ -22,56 +25,91 @@ function Home() {
                 Authorization: `Bearer ${response.data.token}`,
             },
         });
-        dispatch(actions.setDataCoins(res.data.coins));
-    };
-    const handleSortAZ = () => {
         dispatch(
-            actions.setDataCoins(
-                state.dataCoins.sort((a, b) =>
-                    a.symbol.slice(0, 3).localeCompare(b.symbol.slice(0, 3))
-                )
-            )
+            actions.setData({
+                ...state.set,
+                dataCoins: res.data.coins,
+            })
         );
-        dispatch(actions.sortZA(true));
     };
-    const handleSortZA = () => {
-        dispatch(
-            actions.setDataCoins(
-                state.dataCoins.sort((a, b) =>
-                    b.symbol.slice(0, 3).localeCompare(a.symbol.slice(0, 3))
-                )
-            )
-        );
-        dispatch(actions.sortZA(false));
-    };
-    const handleSort09 = () => {
-        dispatch(
-            actions.setDataCoins(
-                state.dataCoins.sort((a, b) =>
-                    a.lastPrice.localeCompare(b.lastPrice)
-                )
-            )
-        );
-        dispatch(actions.sort90(true));
-    };
-    const handleSort90 = () => {
-        dispatch(
-            actions.setDataCoins(
-                state.dataCoins.sort((a, b) =>
-                    b.lastPrice.localeCompare(a.lastPrice)
-                )
-            )
-        );
-        dispatch(actions.sort90(false));
-    };
+    // const handleSortAZ = () => {
+    //     dispatch(
+    //         actions.setDataCoins(
+    //             state.dataCoins.sort((a, b) =>
+    //                 a.symbol.slice(0, 3).localeCompare(b.symbol.slice(0, 3))
+    //             )
+    //         )
+    //     );
+    //     dispatch(
+    //         actions.toogle({
+    //             ...state.toogle,
+    //             sortZA: true,
+    //         })
+    //     );
+    // };
+    // const handleSortZA = () => {
+    //     dispatch(
+    //         actions.setDataCoins(
+    //             state.dataCoins.sort((a, b) =>
+    //                 b.symbol.slice(0, 3).localeCompare(a.symbol.slice(0, 3))
+    //             )
+    //         )
+    //     );
+    //     dispatch(
+    //         actions.toogle({
+    //             ...state.toogle,
+    //             sortZA: false,
+    //         })
+    //     );
+    // };
+    // const handleSort09 = () => {
+    //     dispatch(
+    //         actions.setDataCoins(
+    //             state.dataCoins.sort((a, b) =>
+    //                 a.lastPrice.localeCompare(b.lastPrice)
+    //             )
+    //         )
+    //     );
+    //     dispatch(
+    //         actions.toogle({
+    //             ...state.toogle,
+    //             sort90: true,
+    //         })
+    //     );
+    // };
+    // const handleSort90 = () => {
+    //     dispatch(
+    //         actions.setDataCoins(
+    //             state.dataCoins.sort((a, b) =>
+    //                 b.lastPrice.localeCompare(a.lastPrice)
+    //             )
+    //         )
+    //     );
+    //     dispatch(
+    //         actions.toogle({
+    //             ...state.toogle,
+    //             sort90: false,
+    //         })
+    //     );
+    // };
     useEffect(() => {
         getTokenAndData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
         const handleScrollTop = () => {
             if (window.scrollY > 200) {
-                dispatch(actions.tooglescrollTop(true));
+                dispatch(
+                    actions.toogle({
+                        ...state.toogle,
+                        scrollTop: true,
+                    })
+                );
             } else {
-                dispatch(actions.tooglescrollTop(false));
+                dispatch(
+                    actions.toogle({
+                        ...state.toogle,
+                        scrollTop: false,
+                    })
+                );
             }
         };
         window.addEventListener('scroll', handleScrollTop);
@@ -80,13 +118,112 @@ function Home() {
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    const columns = [
+        { field: 'id', headerName: 'ID' },
+        {
+            field: 'logo',
+            headerName: 'Logo',
+            sortable: false,
+            renderCell: (params) => {
+                return (
+                    <Image
+                        src={params.value.url}
+                        alt={params.value.name}
+                        title={params.value.name}
+                        className={cx('logo_company')}
+                    />
+                );
+            },
+        },
+        {
+            field: 'name',
+            headerName: 'Name',
+            valueGetter: (paramsGetValue) => {
+                return `${paramsGetValue.value || ''}`;
+            },
+        },
+        {
+            field: 'price',
+            headerName: 'Price',
+            sortable: false,
+            renderCell: (params) => {
+                return (
+                    <span
+                        className={cx(
+                            `${
+                                params.value.priceChangePercent < 0
+                                    ? 'text-red'
+                                    : 'text-green'
+                            }`
+                        )}
+                    >
+                        {params.value.lastPrice}
+                    </span>
+                );
+            },
+        },
+        {
+            field: 'hightlow',
+            headerName: '24h Hight/ Low',
+            sortable: false,
+            renderCell: (params) => {
+                return (
+                    <span
+                        title={`${params.value.highPrice}/${params.value.lowPrice}`}
+                    >
+                        {params.value.highPrice}/{params.value.lowPrice}
+                    </span>
+                );
+            },
+        },
+        {
+            field: 'buy',
+            headerName: '',
+            sortable: false,
+            renderCell: (params) => {
+                return (
+                    <Link className={cx('text-primary')} to={`${params.value}`}>
+                        Buy
+                    </Link>
+                );
+            },
+        },
+    ];
+    const rows =
+        dataCoins.length > 0 &&
+        dataCoins.map((coin) => {
+            return {
+                id: coin.index,
+                logo: {
+                    name: coin.fullName,
+                    url: `https://cdn.shopcoinusa.com/${coin.logo}`,
+                },
+                name: `${coin.symbol.slice(0, 3)}/${coin.fullName}`,
+                price: {
+                    lastPrice: coin.lastPrice,
+                    priceChangePercent: coin.priceChangePercent,
+                },
+                hightlow: {
+                    highPrice: coin.highPrice,
+                    lowPrice: coin.lowPrice,
+                },
+                buy: `${routes.coin}/${coin.symbol}`,
+            };
+        });
     return (
         <div className={cx('wrapper')}>
             <h3 className={cx('title')}>Market Trend</h3>
-            <table className={cx('table-coin')}>
+            <DataGrid
+                rows={rows}
+                columns={columns}
+                pageSize={10}
+                rowsPerPageOptions={[10]}
+                style={{ height: '628px' }}
+            />
+            {/* <table className={cx('table-coin')}>
                 <tbody>
                     <tr className={cx('thead')}>
-                        {!state.sortZA ? (
+                        {!sortZA ? (
                             <th onClick={handleSortAZ}>
                                 Name{' '}
                                 <span className={cx('icon-sort')}>
@@ -101,7 +238,7 @@ function Home() {
                                 </span>
                             </th>
                         )}
-                        {!state.sort90 ? (
+                        {!sort90 ? (
                             <th onClick={handleSort09}>
                                 Price{' '}
                                 <span className={cx('icon-sort')}>
@@ -119,8 +256,8 @@ function Home() {
                         <th>24h Hight/ Low</th>
                         <th></th>
                     </tr>
-                    {state.dataCoins.length > 0 ? (
-                        state.dataCoins.map((coin, index) => (
+                    {dataCoins.length > 0 ? (
+                        dataCoins.map((coin, index) => (
                             <tr key={index} className={cx('tbody')}>
                                 <td>
                                     <Image
@@ -167,8 +304,8 @@ function Home() {
                         </tr>
                     )}
                 </tbody>
-            </table>
-            {state.tooglescrollTop && (
+            </table> */}
+            {scrollTop && (
                 <div
                     className={cx('button-scroll-top')}
                     onClick={() => {

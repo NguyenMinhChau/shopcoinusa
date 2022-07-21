@@ -3,6 +3,7 @@ import className from 'classnames/bind';
 import { actions } from '../../../app/';
 import { Input } from '../../../components';
 import { useShopcoinContext } from '../../../hooks';
+import { handleChangeInput, resetForm, checkPwdInput } from '../../handleForm';
 import { Button } from '../../';
 import styles from './ChangePassword.module.css';
 
@@ -10,68 +11,36 @@ const cx = className.bind(styles);
 
 function ChangePassword({ closeModal, contentClick }) {
     const { state, dispatch } = useShopcoinContext();
-    const { oldPassword, newPassword } = state.dataChangePassword;
+    const { oldPassword, newPassword } = state.dataForm;
+    const { oldPwd, newPwd } = state.showPwd;
     const [errorPwdOld, setErrorPwdOld] = useState('');
     const [errorPwdNew, setErrorPwdNew] = useState('');
     const pwdOldRef = useRef();
     const pwdNewRef = useRef();
     const handlePwdOld = (e) => {
-        dispatch(actions.showPwdOld(!state.showPwdOld));
-    };
-    const handlePwdNew = (e) => {
-        dispatch(actions.showPwdNew(!state.showPwdNew));
-    };
-    const handleChangePwd = (e) => {
-        const { name, value } = e.target;
         dispatch(
-            actions.dataChangePwd({
-                ...state.dataChangePwd,
-                [name]: value,
+            actions.showPwd({
+                ...state.showPwd,
+                oldPwd: !oldPwd,
             })
         );
     };
+    const handlePwdNew = (e) => {
+        dispatch(
+            actions.showPwd({
+                ...state.showPwd,
+                newPwd: !newPwd,
+            })
+        );
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
-        //blur pwdOldRef
-        pwdOldRef.current.addEventListener('blur', () => {
-            if (pwdOldRef.current.value === '') {
-                setErrorPwdOld('Please enter your old password');
-            } else if (pwdOldRef.current.value.length < 6) {
-                setErrorPwdOld('Use from 6 characters');
-            } else if (
-                !pwdOldRef.current.value.match(
-                    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/
-                )
-            ) {
-                setErrorPwdOld(
-                    'Your password must have at least: 1 Lowercase, 1 Uppercase, and Digits'
-                );
-            } else {
-                setErrorPwdOld('');
-            }
-        });
-        //blur pwdNewRef
-        pwdNewRef.current.addEventListener('blur', () => {
-            if (pwdNewRef.current.value === '') {
-                setErrorPwdNew('Please enter your new password');
-            } else if (pwdNewRef.current.value.length < 6) {
-                setErrorPwdNew('Use from 6 characters');
-            } else if (
-                !pwdNewRef.current.value.match(
-                    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/
-                )
-            ) {
-                setErrorPwdNew(
-                    'Your password must have at least: 1 Lowercase, 1 Uppercase, and Digits'
-                );
-            } else {
-                setErrorPwdNew('');
-            }
-        });
+        checkPwdInput(pwdOldRef, setErrorPwdOld);
+        checkPwdInput(pwdNewRef, setErrorPwdNew);
     });
     const onSubmit = (e) => {
-        e.preventDefault();
-        console.log('Data value: ', state.dataChangePassword);
-        dispatch(actions.dataChangePwd({ oldPassword: '', newPassword: '' }));
+        console.log('Data value: ', state.dataForm);
+        resetForm(e, dispatch, actions, false);
     };
     return (
         <div className={cx('modal')} onClick={closeModal}>
@@ -88,12 +57,14 @@ function ChangePassword({ closeModal, contentClick }) {
                 <div className={cx('modal-inputs')}>
                     <div className={cx('modal-input-item')}>
                         <Input
-                            type={state.showPwdOld ? 'text' : 'password'}
+                            type={oldPwd ? 'text' : 'password'}
                             name='oldPassword'
                             placeholder='Old Password'
                             ref={pwdOldRef}
                             className={cx('input-custom')}
-                            onChange={handleChangePwd}
+                            onChange={(e) =>
+                                handleChangeInput(e, state, dispatch, actions)
+                            }
                             value={oldPassword}
                         />
                         <p className={cx('modal-error')}>{errorPwdOld}</p>
@@ -101,7 +72,7 @@ function ChangePassword({ closeModal, contentClick }) {
                             className={cx('modal-input-item-icon-hide')}
                             onClick={handlePwdOld}
                         >
-                            {!state.showPwdOld ? (
+                            {!oldPwd ? (
                                 <i className='fa-solid fa-eye-slash'></i>
                             ) : (
                                 <i className='fa-solid fa-eye'></i>
@@ -110,12 +81,14 @@ function ChangePassword({ closeModal, contentClick }) {
                     </div>
                     <div className={cx('modal-input-item')}>
                         <Input
-                            type={state.showPwdNew ? 'text' : 'password'}
+                            type={newPwd ? 'text' : 'password'}
                             name='newPassword'
                             placeholder='New Password'
                             ref={pwdNewRef}
                             className={cx('input-custom')}
-                            onChange={handleChangePwd}
+                            onChange={(e) =>
+                                handleChangeInput(e, state, dispatch, actions)
+                            }
                             value={newPassword}
                         />
                         <p className={cx('modal-error')}>{errorPwdNew}</p>
@@ -123,7 +96,7 @@ function ChangePassword({ closeModal, contentClick }) {
                             className={cx('modal-input-item-icon-hide')}
                             onClick={handlePwdNew}
                         >
-                            {!state.showPwdNew ? (
+                            {!newPwd ? (
                                 <i className='fa-solid fa-eye-slash'></i>
                             ) : (
                                 <i className='fa-solid fa-eye'></i>

@@ -24,12 +24,14 @@ function WrapperHistory() {
             {/* BUTTON */}
             <div className={cx('history-button-container')}>
                 <Button
+                    fontWeightNormal
                     to={routes.profilebuyhistory}
                     className={cx('history-button')}
                 >
                     Buy History
                 </Button>
                 <Button
+                    fontWeightNormal
                     to={routes.profilesellhistory}
                     className={cx('history-button')}
                 >

@@ -70,6 +70,43 @@ a {
   font-style: italic;
 }
 
+/* TABLE /home */
+
+.css-s1v7zr-MuiDataGrid-virtualScrollerRenderZone {
+  width: 100% !important;
+}
+
+div[role="row"] {
+  width: 100% !important;
+  display: flex !important;
+  justify-content: space-around !important;
+  align-items: center !important;
+}
+
+div[role="cell"],
+.css-r11z79-MuiDataGrid-root .MuiDataGrid-cellContent {
+  width: 100% !important;
+}
+
+.css-r11z79-MuiDataGrid-root .MuiDataGrid-cellContent {
+  overflow: initial !important;
+}
+
+.MuiDataGrid-cell:last-child {
+  display: none !important;
+}
+
+.css-r11z79-MuiDataGrid-root .MuiDataGrid-cell {
+  border: none !important;
+}
+
+.css-r11z79-MuiDataGrid-root .MuiDataGrid-row:not(.MuiDataGrid-row--dynamicHeight)>.MuiDataGrid-cell {
+  overflow: initial !important;
+  white-space: nowrap !important;
+  justify-content: space-around !important;
+  align-items: center !important;
+}
+
 /* PC */
 @media (min-width: 64em) {}
 

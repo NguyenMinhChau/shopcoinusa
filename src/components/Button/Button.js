@@ -9,6 +9,7 @@ function Button({
     to,
     href,
     onClick,
+    fontWeightNormal = false,
     disabled = false,
     primary = false,
     outline = false,
@@ -49,6 +50,7 @@ function Button({
         large,
         text,
         rouded,
+        fontWeightNormal,
     });
     return (
         <Cp className={classNames} {...props}>

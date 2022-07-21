@@ -5,4 +5,5 @@
     outline: none;
     padding: 8px 12px;
     width: 100%;
+    caret-color: var(--color-primary);
 }

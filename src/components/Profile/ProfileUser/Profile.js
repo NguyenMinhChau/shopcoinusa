@@ -11,13 +11,24 @@ const cx = className.bind(styles);
 
 function Profile() {
     const { state, dispatch } = useShopcoinContext();
+    const { changePwd } = state.toogle;
     const handleChangePwd = (e) => {
         e.stopPropagation();
-        dispatch(actions.tooglepwd(!state.tooglepwd));
+        dispatch(
+            actions.toogle({
+                ...state.toogle,
+                changePwd: !changePwd,
+            })
+        );
     };
     const handleContentChangePwdClick = (e) => {
         e.stopPropagation();
-        dispatch(actions.tooglepwd(true));
+        dispatch(
+            actions.toogle({
+                ...state.toogle,
+                changePwd: true,
+            })
+        );
     };
     return (
         <WrapperProfile>
@@ -58,7 +69,7 @@ function Profile() {
                     Edit
                 </Link>
             </div>
-            {state.tooglepwd && (
+            {changePwd && (
                 <ChangePassword
                     closeModal={handleChangePwd}
                     contentClick={handleContentChangePwdClick}

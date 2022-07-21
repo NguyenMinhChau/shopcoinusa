@@ -1,11 +1,21 @@
 .button {
     background-color: transparent;
-    border: none;
+    border: 1px solid transparent;
     outline: none;
     font-size: 18px;
     padding: 8px 12px;
     border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s;
     cursor: pointer;
+}
+
+.fontWeightNormal {
+    font-weight: normal;
+}
+
+.large {
+    width: 100%;
 }
 
 .rouded {
@@ -13,21 +23,17 @@
     background-color: var(--color-primary);
 }
 
-.large {
-    width: 100%;
+.outline {
+    border: 1px solid var(--color-primary);
 }
 
 .primary {
-    border: 1px solid var(--color-primary);
-    background-color: rgba(0, 0, 0, var(--color-primary-opacity));
+    background-color: var(--color-primary);
+    color: var(--color-white);
 }
+
 
 .disabled {
     opacity: 0.5;
     cursor: default;
-}
-
-.disabled:hover {
-    background-color: inherit !important;
-    color: inherit !important;
 }

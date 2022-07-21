@@ -4,6 +4,14 @@ import { GoogleReCaptcha } from 'react-google-recaptcha-v3';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useShopcoinContext } from '../../hooks';
 import { actions } from '../../app/';
+import {
+    handleChangeInput,
+    handleVerifyCaptchaV2,
+    handleVerifyCaptchaV3,
+    checkEmailInput,
+    checkPwdInput,
+    resetForm,
+} from '../handleForm';
 import { Button, Input, Form } from '../../components';
 import styles from './Login.module.css';
 
@@ -11,75 +19,29 @@ const cx = className.bind(styles);
 
 function Login() {
     const { state, dispatch } = useShopcoinContext();
-    const { email, password, recaptcha } = state.dataLogin;
+    const { email, password, recaptcha } = state.dataForm;
+    const { loginPwd } = state.showPwd;
     const [errorEmail, setErrorEmail] = useState('');
     const [errorPassword, setErrorPassword] = useState('');
     const emailRef = useRef();
     const passwordRef = useRef();
     const captchaRef = useRef();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
-        emailRef.current.addEventListener('blur', () => {
-            if (emailRef.current.value === '') {
-                setErrorEmail('This field is required');
-            } else if (
-                !emailRef.current.value
-                    .toLowerCase()
-                    .match(
-                        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{3,}))$/
-                    )
-            ) {
-                setErrorEmail('Your email address is not correct');
-            } else {
-                setErrorEmail('');
-            }
-        });
-        passwordRef.current.addEventListener('blur', () => {
-            if (passwordRef.current.value === '') {
-                setErrorPassword('This field is required');
-            } else if (passwordRef.current.value.length < 6) {
-                setErrorPassword('Use from 6 characters');
-            } else if (
-                !passwordRef.current.value.match(
-                    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/
-                )
-            ) {
-                setErrorPassword(
-                    'Your password must have at least: 1 Lowercase, 1 Uppercase, and Digits'
-                );
-            } else {
-                setErrorPassword('');
-            }
-        });
+        checkEmailInput(emailRef, setErrorEmail);
+        checkPwdInput(passwordRef, setErrorPassword);
     });
-    const handleChangeInput = (e) => {
-        const { name, value } = e.target;
-        dispatch(actions.dataLogin({ ...state.dataLogin, [name]: value }));
-    };
-    const handleVerifyCaptchaV2 = () => {
+    const handleShowPwd = () => {
         dispatch(
-            actions.dataLogin({
-                ...state.dataLogin,
-                recaptcha: captchaRef.current.getValue(),
+            actions.showPwd({
+                ...state.showPwd,
+                loginPwd: !loginPwd,
             })
         );
-    };
-    const handleShowPwd = () => {
-        dispatch(actions.showPwdLogin(!state.showPwdLogin));
-    };
-    const handleVerifyCaptchaV3 = () => {
-        console.log('Verify captcha V3');
     };
     const onSubmit = (e) => {
-        e.preventDefault();
-        console.log('Data value: ', state.dataLogin);
-        dispatch(
-            actions.dataLogin({
-                email: '',
-                password: '',
-                recaptcha: '',
-            })
-        );
-        captchaRef.current.reset();
+        console.log('Data value: ', state.dataForm);
+        resetForm(e, dispatch, actions, captchaRef);
     };
     return (
         <Form titleForm='LOG IN TO YOUR ACCOUNT' linkForgot linkRegister>
@@ -92,7 +54,9 @@ function Login() {
                     placeholder='Enter your email address'
                     ref={emailRef}
                     className={cx('input-custom')}
-                    onChange={handleChangeInput}
+                    onChange={(e) =>
+                        handleChangeInput(e, state, dispatch, actions)
+                    }
                 />
                 <p className={cx('error')}>{errorEmail}</p>
             </div>
@@ -100,19 +64,21 @@ function Login() {
                 <p className={cx('label')}>Password</p>
                 <div className={cx('showPwd')}>
                     <Input
-                        type={state.showPwdLogin ? 'text' : 'password'}
+                        type={loginPwd ? 'text' : 'password'}
                         name='password'
                         value={password}
                         placeholder='Enter your password'
                         ref={passwordRef}
                         className={cx('input-custom')}
-                        onChange={handleChangeInput}
+                        onChange={(e) =>
+                            handleChangeInput(e, state, dispatch, actions)
+                        }
                     />
                     <span
                         className={cx('icon-toogle-pwd')}
                         onClick={handleShowPwd}
                     >
-                        {state.showPwdLogin ? (
+                        {loginPwd ? (
                             <i className='fa-solid fa-eye'></i>
                         ) : (
                             <i className='fa-solid fa-eye-slash'></i>
@@ -128,7 +94,14 @@ function Login() {
                     ref={captchaRef}
                     sitekey={process.env.REACT_APP_RECAPTCHA_SITEKEY}
                     className={cx('g-recaptcha')}
-                    onChange={handleVerifyCaptchaV2}
+                    onChange={() =>
+                        handleVerifyCaptchaV2(
+                            state,
+                            dispatch,
+                            actions,
+                            captchaRef
+                        )
+                    }
                 />
             </div>
             <div className={cx('input-item')}>

@@ -5,60 +5,30 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import { Button, Input, Form } from '../../components';
 import { useShopcoinContext } from '../../hooks';
 import { actions } from '../../app/';
+import {
+    handleChangeInput,
+    handleVerifyCaptchaV2,
+    handleVerifyCaptchaV3,
+    resetForm,
+    checkEmailInput,
+} from '../handleForm';
 import styles from './Forgot.module.css';
 
 const cx = className.bind(styles);
 
 function Forgot() {
     const { state, dispatch } = useShopcoinContext();
-    const { email, recaptcha } = state.dataForgotPwd;
+    const { email, recaptcha } = state.dataForm;
     const [errorEmail, setErrorEmail] = useState('');
     const emailRef = useRef();
     const captchaRef = useRef();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
-        emailRef.current.addEventListener('blur', () => {
-            if (emailRef.current.value === '') {
-                setErrorEmail('This field is required');
-            } else if (
-                !emailRef.current.value
-                    .toLowerCase()
-                    .match(
-                        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{3,}))$/
-                    )
-            ) {
-                setErrorEmail('Your email address is not correct');
-            } else {
-                setErrorEmail('');
-            }
-        });
+        checkEmailInput(emailRef, setErrorEmail);
     });
-    const handleChangeInput = (e) => {
-        const { name, value } = e.target;
-        dispatch(
-            actions.dataForgotPwd({ ...state.dataForgotPwd, [name]: value })
-        );
-    };
-    const handleVerifyCaptchaV2 = () => {
-        dispatch(
-            actions.dataForgotPwd({
-                ...state.dataForgotPwd,
-                recaptcha: captchaRef.current.getValue(),
-            })
-        );
-    };
-    const handleVerifyCaptchaV3 = () => {
-        console.log('Verify captcha V3');
-    };
     const onSubmit = (e) => {
-        e.preventDefault();
-        console.log('Data value: ', state.dataForgotPwd);
-        dispatch(
-            actions.dataForgotPwd({
-                email: '',
-                recaptcha: '',
-            })
-        );
-        captchaRef.current.reset();
+        console.log('Data value: ', state.dataForm);
+        resetForm(e, dispatch, actions, captchaRef);
     };
     return (
         <Form titleForm='FORGOT YOUR PASSWORD ?'>
@@ -74,7 +44,9 @@ function Forgot() {
                     placeholder='Enter your email address'
                     ref={emailRef}
                     className={cx('input-custom')}
-                    onChange={handleChangeInput}
+                    onChange={(e) =>
+                        handleChangeInput(e, state, dispatch, actions)
+                    }
                     value={email}
                 />
                 <p className={cx('error')}>{errorEmail}</p>
@@ -85,7 +57,14 @@ function Forgot() {
                 <ReCAPTCHA
                     ref={captchaRef}
                     sitekey={process.env.REACT_APP_RECAPTCHA_SITEKEY}
-                    onChange={handleVerifyCaptchaV2}
+                    onChange={() =>
+                        handleVerifyCaptchaV2(
+                            state,
+                            dispatch,
+                            actions,
+                            captchaRef
+                        )
+                    }
                     className={cx('g-recaptcha')}
                 />
             </div>

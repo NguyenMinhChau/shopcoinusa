@@ -11,6 +11,7 @@ function Deposits() {
         <WrapperProfile>
             <h3 className={cx('title')}>DEPOSITS</h3>
             <Button
+                fontWeightNormal
                 to={routes.profiledepositcreate}
                 primary
                 className={cx('withdrawal-button')}
