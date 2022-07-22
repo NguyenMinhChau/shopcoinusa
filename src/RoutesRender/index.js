@@ -13,6 +13,7 @@ import {
     WrapperHistory,
     Forgot,
     Signup,
+    DetailCoin,
 } from '../components';
 export const publicRouter = [
     { path: routes.home, component: Home },
@@ -29,5 +30,6 @@ export const publicRouter = [
     { path: routes.signup, component: Signup },
     { path: routes.pagenotfound, component: PageNotFound, layout: null },
     { path: routes.login, component: Login },
+    { path: routes.detailcoin, component: DetailCoin },
 ];
 export const privateRouter = [];

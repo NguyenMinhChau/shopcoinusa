@@ -28,7 +28,7 @@
 
 .item-modal-text {
     cursor: pointer;
-    color: #3b84f6;
+    color: var(--color-link-primary);
 }
 
 .your-payment-info {

@@ -17,3 +17,4 @@ export { default as PageNotFound } from './PageNotFound/PageNotFound';
 export { default as Sidebar } from './Sidebar/Sidebar';
 export { default as Login } from './Login/Login';
 export { default as Input } from './Input/Input';
+export { default as DetailCoin } from './DetailCoin/DetailCoin';

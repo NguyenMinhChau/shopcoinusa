@@ -1,6 +1,7 @@
 :root {
   --color-primary: #f09e0b;
   --color-error: #ff0000;
+  --color-success: #00ff00;
   --color-white: white;
   --color-black: black;
   --color-text: #555;
@@ -10,8 +11,10 @@
   --header-height: 64px;
   --width-logo-header: 156px;
   --footer-bgc: #f3f4f6;
+  --bgc-dropdown-item-hover: rgb(231, 231, 231);
+  --color-link-primary: #3b82f6;
+  --border-input: #ccc;
 }
-
 
 * {
   padding: 0;

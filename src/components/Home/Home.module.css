@@ -102,11 +102,11 @@
 }
 
 .text-red {
-    color: red;
+    color: var(--color-error);
 }
 
 .text-green {
-    color: green;
+    color: var(--color-success);
 }
 
 .button-scroll-top {

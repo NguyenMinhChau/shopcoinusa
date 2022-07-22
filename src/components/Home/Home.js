@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import className from 'classnames/bind';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 // import { DataGrid } from '@mui/x-data-grid';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import { routes } from '../../Routes';
 import { useShopcoinContext } from '../../hooks';
 import { actions } from '../../app/';
@@ -15,23 +16,6 @@ function Home() {
     const { state, dispatch } = useShopcoinContext();
     const { scrollTop, sortZA, sort90 } = state.toogle;
     const { dataCoins } = state.set;
-    const getTokenAndData = async () => {
-        const response = await axios.post(process.env.REACT_APP_AUTH_LOGIN, {
-            email: process.env.REACT_APP_EMAIL,
-            password: process.env.REACT_APP_PASSWORD,
-        });
-        const res = await axios.get(process.env.REACT_APP_API_COIN, {
-            headers: {
-                Authorization: `Bearer ${response.data.token}`,
-            },
-        });
-        dispatch(
-            actions.setData({
-                ...state.set,
-                dataCoins: res.data.coins,
-            })
-        );
-    };
     const handleSortAZ = () => {
         dispatch(
             actions.setData(
@@ -89,7 +73,6 @@ function Home() {
         );
     };
     useEffect(() => {
-        getTokenAndData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
         const handleScrollTop = () => {
             if (window.scrollY > 200) {
@@ -206,6 +189,7 @@ function Home() {
                 buy: `${routes.coin}/${coin.symbol}`,
             };
         });
+    const flagData = [1, 2, 3, 4, 5];
     return (
         <div className={cx('wrapper')}>
             <h3 className={cx('title')}>Market Trend</h3>
@@ -293,11 +277,33 @@ function Home() {
                             </tr>
                         ))
                     ) : (
-                        <tr style={{ textAlign: 'center' }}>
-                            <td style={{ padding: '12px' }} colSpan='4'>
-                                Đang tải dữ liệu ...
-                            </td>
-                        </tr>
+                        <>
+                            {flagData.map((item, index) => (
+                                <tr className={cx('tbody')} key={index}>
+                                    <td>
+                                        <Skeleton
+                                            circle
+                                            height='32px'
+                                            width='32px'
+                                            containerClassName='avatar-skeleton'
+                                        />{' '}
+                                        <Skeleton
+                                            width={100}
+                                            style={{ marginLeft: '12px' }}
+                                        />
+                                    </td>
+                                    <td>
+                                        <Skeleton width={70} />
+                                    </td>
+                                    <td>
+                                        <Skeleton width={70} />
+                                    </td>
+                                    <td>
+                                        <Skeleton width={70} />
+                                    </td>
+                                </tr>
+                            ))}
+                        </>
                     )}
                 </tbody>
             </table>

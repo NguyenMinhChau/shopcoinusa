@@ -21,4 +21,5 @@ export const routes = {
     forgotpassword: '/forgot-pass',
     signup: '/signup',
     pagenotfound: '*',
+    detailcoin: '/coin/:slug',
 };

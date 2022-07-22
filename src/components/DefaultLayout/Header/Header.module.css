@@ -15,7 +15,6 @@
 
 .logo-container a {
     width: var(--width-logo-header);
-    display: block;
 }
 
 .logo-header {
@@ -95,5 +94,5 @@
 
 .dropdown-item:hover {
     cursor: pointer;
-    background-color: rgb(231, 231, 231);
+    background-color: var(--bgc-dropdown-item-hover);
 }
