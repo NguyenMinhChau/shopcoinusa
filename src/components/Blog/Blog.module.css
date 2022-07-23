@@ -1,0 +1,13 @@
+.wrapper {
+    min-height: var(--min-height-content);
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+}
+
+.title {
+    font-size: 30px;
+    margin: auto;
+    color: var(--color-text-link);
+    font-style: italic;
+}

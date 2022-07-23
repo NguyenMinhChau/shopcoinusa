@@ -1,0 +1,12 @@
+.wrapper {
+    min-height: var(--min-height-content);
+    padding: 32px;
+}
+
+.desc {
+    font-size: 18px;
+}
+
+.desc+.desc {
+    margin-top: 24px;
+}

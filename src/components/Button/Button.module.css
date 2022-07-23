@@ -1,0 +1,24 @@
+.button {
+    min-width: 100px;
+    padding: 9px 16px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: var(--color-white);
+    border: 1px solid transparent;
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.primary {
+    background-color: var(--color-primary) !important;
+    color: var(--color-white) !important;
+}
+
+.rounded {
+    border-radius: 24px;
+}

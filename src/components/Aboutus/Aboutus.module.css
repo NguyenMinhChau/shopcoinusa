@@ -1,0 +1,99 @@
+.wrapper {
+    min-height: var(--min-height-content);
+    padding: 32px;
+}
+
+.bg-fill-container {
+    position: relative;
+    padding-bottom: 43.25%;
+    width: 100%;
+    height: 0;
+}
+
+.bg-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.bg-fill-effect {
+    animation: bgEffect 20s linear infinite;
+}
+
+@keyframes bgEffect {
+    0% {
+        background-position: 0px 0px, 0px 0px, 0px 0px;
+    }
+
+    100% {
+        background-position: 500px 1000px, 400px 400px, 300px 300px;
+    }
+}
+
+.title {
+    text-align: center;
+    padding: 30px 45px 60px 45px;
+    letter-spacing: 0.5px;
+}
+
+.list-group,
+.list-group-children {
+    list-style: none;
+    counter-reset: my-awesome-counter;
+}
+
+.list-group-children {
+    counter-reset: my-awesome-counter-children;
+}
+
+.list-group-children-1 {
+    list-style: none;
+    list-style-position: inside;
+    margin-left: 15px;
+}
+
+.list-group-item,
+.list-group-item-children {
+    counter-increment: my-awesome-counter;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.list-group-item-children {
+    counter-increment: my-awesome-counter-children;
+    letter-spacing: 0.5px;
+    font-size: 18px;
+    margin: 12px 0 0 12px;
+    line-height: 1.5;
+}
+
+.list-group-item-children-1 {
+    font-weight: normal;
+    letter-spacing: 1px;
+    line-height: 2;
+}
+
+.list-group-item::before {
+    content: counter(my-awesome-counter, upper-roman) ": ";
+}
+
+.list-group-item-children::before {
+    content: counter(my-awesome-counter-children) ": ";
+}
+
+.dics {
+    list-style: disc;
+    list-style-position: inside;
+}
+
+.circle {
+    list-style: circle;
+    list-style-position: inside;
+}
