@@ -6,3 +6,4 @@ export { default as Aboutus } from './Aboutus/Aboutus';
 export { default as Contactus } from './Contactus/Contactus';
 export { default as Image } from './Image/Image';
 export { default as Button } from './Button/Button';
+export { default as PageNotFound } from './PageNotFound/PageNotFound';
