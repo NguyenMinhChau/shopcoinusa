@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import className from 'classnames/bind';
 import { Link } from 'react-router-dom';
-// import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { routes } from '../../Routes';
@@ -193,13 +193,13 @@ function Home() {
     return (
         <div className={cx('wrapper')}>
             <h3 className={cx('title')}>Market Trend</h3>
-            {/* <DataGrid
+            <DataGrid
                 rows={rows}
                 columns={columns}
                 pageSize={10}
                 rowsPerPageOptions={[10]}
                 style={{ height: '635px' }}
-            /> */}
+            />
             <table className={cx('table-coin')}>
                 <tbody>
                     <tr className={cx('thead')}>
