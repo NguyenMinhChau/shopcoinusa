@@ -4,6 +4,7 @@
   --color-white: white;
   --color-black: black;
   --color-text-link: #666666D9;
+  --color-text: #555;
   --min-height-content: 530px;
   --logo-width: 200px;
   --logo-height: 64px;
@@ -59,7 +60,64 @@ html *::-webkit-scrollbar-track {
   border-color: var(--color-primary);
 }
 
+.no-support {
+  display: none;
+  background-color: var(--color-white);
+  width: 100%;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 12px;
+}
+
+.logo-no-support {
+  width: 200px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.desc {
+  font-size: 14px;
+  color: var(--color-text);
+  margin-top: 10px;
+  text-align: center;
+  font-style: italic;
+}
+
 a {
   text-decoration: none !important;
   display: inline-block;
 }
+
+/* PC */
+@media (min-width: 64em) {}
+
+/* IPAD Pro */
+@media (max-width: 64em) {
+  .app {
+    display: none;
+  }
+
+  .no-support {
+    display: flex;
+  }
+
+}
+
+/* TABLET & MOBILE */
+@media (max-width: 63.9375em) {
+  .app {
+    display: none;
+  }
+
+  .no-support {
+    display: flex;
+  }
+}
+
+/* TABLET */
+@media (min-width: 46.25em) and (max-width: 63.9375em) {}
+
+/* MOBILE */
+@media (max-width: 46.25em) {}

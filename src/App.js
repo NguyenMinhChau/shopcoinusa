@@ -1,7 +1,7 @@
 import { Fragment, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { publicRouter } from './RouterRender';
-import { DefaultLayout } from './components';
+import { DefaultLayout, Image } from './components';
 import { useShopcoinusaContext } from './hooks';
 import { actions } from './app/';
 function App() {
@@ -32,42 +32,48 @@ function App() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
-        <div className='app'>
-            <Routes>
-                {publicRouter.map((item, index) => {
-                    const Layout = item.layout
-                        ? item.layout
-                        : item.layout === null
-                        ? Fragment
-                        : DefaultLayout;
-                    const Page = item.component;
-                    return (
-                        <Route
-                            key={index}
-                            path={item.path}
-                            element={
-                                <Layout>
-                                    <Page />
-                                </Layout>
-                            }
-                        />
-                    );
-                })}
-            </Routes>
-            {isScrollTop && (
-                <div
-                    className='scroll-top'
-                    onClick={() => {
-                        window.scrollTo({
-                            top: 0,
-                            behavior: 'smooth',
-                        });
-                    }}
-                >
-                    <i className='fas fa-chevron-up'></i>
-                </div>
-            )}
-        </div>
+        <>
+            <div className='app'>
+                <Routes>
+                    {publicRouter.map((item, index) => {
+                        const Layout = item.layout
+                            ? item.layout
+                            : item.layout === null
+                            ? Fragment
+                            : DefaultLayout;
+                        const Page = item.component;
+                        return (
+                            <Route
+                                key={index}
+                                path={item.path}
+                                element={
+                                    <Layout>
+                                        <Page />
+                                    </Layout>
+                                }
+                            />
+                        );
+                    })}
+                </Routes>
+                {isScrollTop && (
+                    <div
+                        className='scroll-top'
+                        onClick={() => {
+                            window.scrollTo({
+                                top: 0,
+                                behavior: 'smooth',
+                            });
+                        }}
+                    >
+                        <i className='fas fa-chevron-up'></i>
+                    </div>
+                )}
+            </div>
+            <div className='no-support'>
+                <Image src='' alt='' className='logo-no-support' />
+                <p className='desc'>Notice: Unsupported device 😥</p>
+            </div>
+        </>
     );
 }
 
