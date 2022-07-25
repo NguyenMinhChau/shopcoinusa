@@ -2,7 +2,7 @@ import { SET, DATA_FORM, SHOW_PWD, TOOGLE } from './actions';
 
 const initialStateShopCoin = {
     set: {
-        user: {},
+        user: null,
         dataCoins: [],
     },
     dataForm: {

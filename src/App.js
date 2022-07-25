@@ -4,9 +4,10 @@ import axios from 'axios';
 import { DefaultLayout, Image } from './components';
 import { useShopcoinContext } from './hooks';
 import { actions } from './app/';
-import { publicRouter } from './RoutesRender';
+import { publicRouter, privateRouter } from './RoutesRender';
 function App() {
     const { state, dispatch } = useShopcoinContext();
+    const { user } = state.set;
     const getTokenAndData = async () => {
         const response = await axios.post(process.env.REACT_APP_AUTH_LOGIN, {
             email: process.env.REACT_APP_EMAIL,
@@ -31,27 +32,51 @@ function App() {
     return (
         <>
             <div className='app'>
-                <Routes>
-                    {publicRouter.map((route, index) => {
-                        const Layout = route.layout
-                            ? route.layout
-                            : route.layout === null
-                            ? Fragment
-                            : DefaultLayout;
-                        const Page = route.component;
-                        return (
-                            <Route
-                                key={index}
-                                path={route.path}
-                                element={
-                                    <Layout>
-                                        <Page />
-                                    </Layout>
-                                }
-                            />
-                        );
-                    })}
-                </Routes>
+                {!user ? (
+                    <Routes>
+                        {publicRouter.map((route, index) => {
+                            const Layout = route.layout
+                                ? route.layout
+                                : route.layout === null
+                                ? Fragment
+                                : DefaultLayout;
+                            const Page = route.component;
+                            return (
+                                <Route
+                                    key={index}
+                                    path={route.path}
+                                    element={
+                                        <Layout>
+                                            <Page />
+                                        </Layout>
+                                    }
+                                />
+                            );
+                        })}
+                    </Routes>
+                ) : (
+                    <Routes>
+                        {privateRouter.map((route, index) => {
+                            const Layout = route.layout
+                                ? route.layout
+                                : route.layout === null
+                                ? Fragment
+                                : DefaultLayout;
+                            const Page = route.component;
+                            return (
+                                <Route
+                                    key={index}
+                                    path={route.path}
+                                    element={
+                                        <Layout>
+                                            <Page />
+                                        </Layout>
+                                    }
+                                />
+                            );
+                        })}
+                    </Routes>
+                )}
             </div>
             <div className='no-support'>
                 <Image src='' alt='' className='logo-no-support' />

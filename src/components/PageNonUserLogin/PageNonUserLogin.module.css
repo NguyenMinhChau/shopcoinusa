@@ -1,0 +1,24 @@
+.wrapper {
+    height: 100vh;
+    display: flex;
+}
+
+.content {
+    margin: auto;
+    text-align: center;
+    color: var(--color-text);
+}
+
+.content-title {
+    margin: 15px 0 8px 0;
+    font-size: 30px;
+    font-weight: 550;
+}
+
+.link-nuxt {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    color: #ccc;
+    font-size: 20px;
+}

@@ -14,6 +14,7 @@ export { default as Forgot } from './Forgot/Forgot';
 export { default as Form } from './Form/Form';
 export { default as Signup } from './Signup/Sinup';
 export { default as PageNotFound } from './PageNotFound/PageNotFound';
+export { default as PageNonUserLogin } from './PageNonUserLogin/PageNonUserLogin';
 export { default as Sidebar } from './Sidebar/Sidebar';
 export { default as Login } from './Login/Login';
 export { default as Input } from './Input/Input';

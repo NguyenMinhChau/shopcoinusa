@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import className from 'classnames/bind';
 import { GoogleReCaptcha } from 'react-google-recaptcha-v3';
 import ReCAPTCHA from 'react-google-recaptcha';
@@ -12,6 +13,7 @@ import {
     checkPwdInput,
     resetForm,
 } from '../handleForm';
+import { routes } from '../../Routes';
 import { Button, Input, Form } from '../../components';
 import styles from './Login.module.css';
 
@@ -26,6 +28,7 @@ function Login() {
     const emailRef = useRef();
     const passwordRef = useRef();
     const captchaRef = useRef();
+    const history = useNavigate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         checkEmailInput(emailRef, setErrorEmail);
@@ -42,6 +45,15 @@ function Login() {
     const onSubmit = (e) => {
         console.log('Data value: ', state.dataForm);
         resetForm(e, dispatch, actions, captchaRef);
+        setTimeout(() => {
+            dispatch(
+                actions.setData({
+                    ...state.set,
+                    user: {},
+                })
+            );
+            history(routes.home);
+        }, 2000);
     };
     return (
         <Form titleForm='LOG IN TO YOUR ACCOUNT' linkForgot linkRegister>
